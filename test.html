@@ -1,19 +1,170 @@
-<?php
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title></title>
+	<style>
+		body {
+			margin: 0;
+			height: 100vh;
+		}
+		canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+}
 
-$sizes = array(
-	array("size" => "4\" x 4\" x 2\" ", "unitprice" => "1.19" ),
-	array("size" => "6\" x 6\" x 2\" ", "unitprice" => "1.57" ),
-	array("size" => "7\" x 6\" x 1\" ", "unitprice" => "1.21" ),
-	array("size" => "8\" x 5\" x 3\" ", "unitprice" => "2.07" ),
-	array("size" => "9\" x 6\" x 4\" ", "unitprice" => "2.94" ),
-	array("size" => "9\" x 8\" x 2\" ", "unitprice" => "2.09" ),
-	array("size" => "10\" x 8\" x 4\" ", "unitprice" => "3.45" ),
-	array("size" => "10\" x 9\" x 1.5\" ", "unitprice" => "2.05" ),
-	array("size" => "12\" x 9\" x 2\" ", "unitprice" => "2.52" ),
-	array("size" => "13\" x 10\" x 5\" ", "unitprice" => "5.00" ),
-	array("size" => "14\" x 10\" x 4\" ", "unitprice" => "4.36" )
-);
+.example {
+	position: absolute;
+	z-index: 9999;
+}
 
 
-?>
+	</style>
+</head>
+<body>
+<button class="example">Click Me</button>
+<script src="assets/js/three.js"></script>
+<!-- <script type="text/javascript">
+	var width = window.innerWidth;
+var height = window.innerHeight;
 
+var renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(width, height);
+document.body.appendChild(renderer.domElement);
+
+var scene = new THREE.Scene;
+
+var cubeGeometry = new THREE.CubeGeometry(100, 100, 100);
+var cubeMaterial = new THREE.MeshLambertMaterial({ color: 0xffffff });
+var cube = new THREE.Mesh(cubeGeometry, cubeMaterial);
+cube.rotation.y = Math.PI * 45 / 180;
+scene.add(cube);
+
+var camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 10000);
+camera.position.y = 160;
+camera.position.z = 400;
+camera.lookAt(cube.position);
+
+scene.add(camera);
+
+var skyboxGeometry = new THREE.CubeGeometry(10000, 10000, 10000);
+var skyboxMaterial = new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.BackSide });
+var skybox = new THREE.Mesh(skyboxGeometry, skyboxMaterial);
+
+scene.add(skybox);
+
+var pointLight = new THREE.PointLight(0xffffff);
+pointLight.position.set(0, 300, 200);
+
+scene.add(pointLight);
+
+var clock = new THREE.Clock;
+
+function render() {
+        requestAnimationFrame(render);
+        
+        cube.rotation.y -= clock.getDelta();
+        
+        renderer.render(scene, camera);
+}
+
+render();
+</script> -->
+<script>
+	var width = window.innerWidth;
+	var height = window.innerHeight;
+
+	var scene = new THREE.Scene();
+
+	var camera = new THREE.PerspectiveCamera( 75, width / height, 0.1, 1000 );
+	camera.position.z = 5;
+
+	var renderer = new THREE.WebGLRenderer( {
+		antialias: true
+	} );
+
+	renderer.setClearColor("#e5e5e5");
+	renderer.setSize(width, height);
+
+	document.body.appendChild(renderer.domElement);
+
+	window.addEventListener('resize', () => {
+		renderer.setSize(width, height);
+		camera.aspect = width / height;
+		camera.updateProjectionMatrix();
+	})
+
+	
+
+	//Now Creating Object
+	// var geometry = new THREE.SphereGeometry(1, 40, 40);
+	// var material = new THREE.MeshLambertMaterial({color: 0xFF6600} );
+	// var mesh = new THREE.Mesh( geometry, material);
+	// scene.add(mesh);
+
+	
+
+
+	var boxGeometry = new THREE.BoxGeometry(3.4, 2, 1);
+	var boxMaterial = new THREE.MeshLambertMaterial({ color: 0xFFCC00 });
+	var box = new THREE.Mesh(boxGeometry, boxMaterial);
+	//box.rotation.y = Math.PI * 45 / 180;
+	box.rotation.x = 2;
+	box.rotation.z = 0.5;
+	//box.rotation.y = 1;
+	scene.add(box);
+
+	var boxGeometry = new THREE.BoxGeometry(3.5, 2.2, 0.01);
+	var boxMaterial = new THREE.MeshLambertMaterial({ color: 0xFF6600 });
+	var box1 = new THREE.Mesh(boxGeometry, boxMaterial);
+	//box.rotation.y = Math.PI * 45 / 180;
+	box1.rotation.x = 2;
+	box1.rotation.z = 0.5;
+	box1.position.y = 0.51;
+	box1.position.z = 0.08;
+	//box1.rotation.y = 1;
+	scene.add(box1);
+
+	
+
+	var pointLight = new THREE.PointLight(0xffffff, 1, 500);
+	pointLight.position.set(10, 30, 20);
+	scene.add(pointLight);
+
+	//renderer.render(scene, camera);
+	function render() {
+        requestAnimationFrame(render); 
+        //box1.rotation.x -= 0.01;    
+        //box1.rotation.z += 0.05;    
+        // box1.rotation.y -= 0.01;    
+        // box1.rotation.z += 0.01;    
+        renderer.render(scene, camera);
+	}
+	
+var example = document.getElementsByClassName("example");
+	document.body.addEventListener('click', () =>  {
+		//box1.rotation.x -= 1;    
+		
+		box1.rotation.x = 3.1;    
+		box1.rotation.y = 0.06; 
+		box1.rotation.z = 0.06; 
+		box1.position.x = 1;   
+		box1.position.y = 1.9;   
+		
+		let val = "W: "+ box1.rotation.x + " Z: "+ box1.rotation.z;
+		example.innerHTML  = val;
+		console.log(val);
+
+
+	})
+
+
+	render();
+
+
+
+</script>
+</body>
+</html>
